@@ -1,100 +1,53 @@
-# Data Mart for Accommodation Booking Platform
+## Quick Start Guide
 
-## Overview
-This project implements a relational **data mart for an accommodation booking platform** similar to Airbnb.  
-The system stores and manages data related to users, properties, bookings, payments, messaging, and reviews.
+This guide explains how to set up and explore the accommodation booking data mart.
 
-The database was implemented using:
+### 1. Requirements
 
-- **DuckDB** as the database engine  
-- **DBeaver** as the SQL client
+Before starting, ensure the following tools are installed:
 
-The objective was to design a structured relational model that supports the core functionality of a booking platform while maintaining consistent and scalable data management.
+- **DuckDB** – database engine used for the data mart  
+- **DBeaver** (or any SQL client) – used to run SQL scripts and browse the database
 
----
+### 2. Create the Database
 
-## Data Model
+1. Open **DBeaver**.
+2. Create a new **DuckDB connection**.
+3. Create a new database file (e.g. `booking_datamart.duckdb`).
 
-The data mart consists of multiple entities connected through **foreign key relationships** and grouped by platform functionality.
+### 3. Initialize the Schema
 
-### User Management
-Tables:
-- `users`
-- `guests`
-- `hosts`
-- `admins`
+Run the provided SQL scripts in the following order:
 
-The `users` table stores general information about all platform users, while role-specific tables extend it with attributes relevant to guests, hosts, and administrators.
+1. **Schema creation**
+   - Creates the main `booking` schema.
 
-### Property Management
-Tables:
-- `properties`
-- `property_photos`
-- `amenities`
-- `property_amenities`
-- `cancellation_policy`
+2. **Table creation**
+   - Creates all entities such as:
+     - users
+     - properties
+     - bookings
+     - payments
+     - messages
+     - reviews
 
-These tables manage property listings, including descriptions, amenities, photos, and cancellation rules.  
-`property_amenities` represents a **many-to-many relationship** between properties and amenities.
+3. **Lookup tables**
+   - booking statuses  
+   - payment statuses  
+   - payment providers  
+   - payment methods
 
-### Booking Management
-Tables:
-- `bookings`
-- `booking_statuses`
-- `booking_cancellations`
+4. **Relationship tables**
+   - property amenities
+   - booking related entities
 
-The `bookings` table is the central entity and links guests, hosts, and properties.  
-Booking states are stored in the `booking_statuses` lookup table.
+Running these scripts will generate the complete relational structure of the data mart.
 
-### Communication & Reviews
-Tables:
-- `messages`
-- `property_ratings`
-- `disputes`
+### 4. Verify the Setup
 
-These entities enable communication between users, submission of property reviews, and dispute handling.
+After executing the scripts, confirm that the tables were created correctly:
 
-### Payments
-Tables:
-- `payments`
-- `refunds`
-- `payment_methods`
-- `payment_statuses`
-- `payment_providers`
-
-These tables manage financial transactions related to bookings, including payment methods, providers, statuses, and refunds.
-
----
-
-## System Functionality
-
-The data mart supports the main operations of a booking platform:
-
-**User Management**
-- Stores user profiles and role information for guests, hosts, and administrators.
-
-**Property Listings**
-- Hosts can create and manage property listings.
-- Properties can have multiple amenities and photos.
-
-**Booking Management**
-- Guests can create reservations for selected date ranges.
-- Bookings connect guests, hosts, properties, and pricing data.
-- Booking statuses track reservation progress.
-
-**Payments**
-- Payments are linked to bookings and include transaction details.
-- Refunds are stored separately for returned payments.
-
-**Communication & Feedback**
-- Users can send messages related to bookings.
-- Guests can submit property ratings and reviews.
-- Administrators manage disputes when necessary.
-
----
-
-## Summary
-
-The final data mart successfully implements the **entity-relationship model designed in earlier phases** and translates it into SQL tables with appropriate relationships.
-
-The database structure supports all core use cases of an accommodation booking platform while demonstrating practical application of **relational database design, normalization, and SQL implementation**.
+```sql
+SELECT table_name
+FROM information_schema.tables
+WHERE table_schema = 'booking';
