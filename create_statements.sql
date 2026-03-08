@@ -1,3 +1,5 @@
+CREATE SCHEMA IF NOT EXISTS booking;
+
 CREATE TABLE booking.users (
   user_id INT NOT NULL,
   name VARCHAR,
